@@ -13,7 +13,7 @@ class QuestionAdmin extends AbstractAdmin
     {
         $formMapper->add('poll', 'entity', array(
             'class' => 'PollBundle\Entity\Poll',
-            'associated_property' => 'name'
+            'choice_label' => 'name'
         ));
         $formMapper->add('description', 'text');
         $formMapper->add('type', 'text');
