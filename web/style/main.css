@@ -1,0 +1,12 @@
+body, html, .landing-bg {
+    height: 100%;
+    width: 100%;
+}
+
+.landing-bg .valign {
+    width: 100%;
+}
+
+h4 {
+    margin-bottom: 50px;
+}
