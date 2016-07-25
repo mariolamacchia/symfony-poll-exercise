@@ -1,0 +1,15 @@
+{% extends 'card.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block card_content %}
+    <div class="card-content">
+        <h1 class="card-title">Success!</h1>
+        <p>
+            Your registration was successful.
+        </p>
+    </div>
+    <div class="card-action">
+        <a href="/">Go to the dashboard</a>
+    </div>
+{% endblock %}
