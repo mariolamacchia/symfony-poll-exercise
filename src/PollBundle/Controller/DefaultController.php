@@ -10,8 +10,8 @@ class DefaultController extends Controller
     /**
      * @Route("/")
      */
-    public function indexAction()
-    {
-        return $this->render('PollBundle:Default:index.html.twig');
-    }
+    // public function indexAction()
+    // {
+    //     return $this->render('PollBundle:Default:index.html.twig');
+    // }
 }
