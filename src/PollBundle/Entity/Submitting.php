@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Submitting
  *
- * @ORM\Table(name="submitting")
+ * @ORM\Table(name="submitting", uniqueConstraints={@ORM\UniqueConstraint(name="submitting_user", columns={"user_id", "question_id"})})
+)
  * @ORM\Entity(repositoryClass="PollBundle\Repository\SubmittingRepository")
  */
 class Submitting
