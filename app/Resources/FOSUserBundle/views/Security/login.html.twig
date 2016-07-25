@@ -1,0 +1,37 @@
+{% extends 'card.html.twig' %}
+
+{% block card_content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+        <div class="card-content">
+
+            <h1 class="card-title">Login</h1>
+            
+            {% if error %}
+                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+            <div class="input-field">
+              <input id="username" type="email" class="validate">
+              <label for="username">Email</label>
+            </div>
+
+            <div class="input-field">
+              <input id="password" type="password" class="validate">
+              <label for="password">Password</label>
+            </div>
+
+            <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+            <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+        </div>
+        <div class="card-action center-align valign-wrapper">
+            <a href="{{ url('fos_user_registration_register') }}" class="valign">Signup</a>
+            <input class="waves-effect waves-light btn light-blue darken-4 valign"
+                type="submit" id="_submit" name="_submit"
+                value="{{ 'security.login.submit'|trans }}" />
+        </div>
+    </form>
+{% endblock %}

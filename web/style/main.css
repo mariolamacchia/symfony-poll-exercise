@@ -3,10 +3,14 @@ body, html, .landing-bg {
     width: 100%;
 }
 
-.landing-bg .valign {
-    width: 100%;
-}
-
 h4 {
     margin-bottom: 50px;
+}
+
+.center-align.valign-wrapper {
+    justify-content: center;
+}
+
+h1.card-title {
+    margin-top: 0;
 }

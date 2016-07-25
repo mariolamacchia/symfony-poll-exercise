@@ -1,0 +1,38 @@
+{% extends 'card.html.twig' %}
+
+{% block card_content %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+        <div class="card-content">
+            <h1 class="card-title">Signup</h1>
+
+            {% if form.vars.errors | length > 0 %}
+                <h6 class="red-text">{{form.vars.errors[0].message}}</h6>
+            {% elseif form.email.vars.errors | length > 0 %}
+                <h6 class="red-text">{{form.email.vars.errors[0].message}}</h6>
+            {% elseif form.plainPassword.first.vars.errors | length > 0 %}
+                <h6 class="red-text">{{form.plainPassword.first.vars.errors[0].message}}</h6>
+            {% endif %}
+
+            {{ form_widget(form._token) }}
+
+            <div class="input-field">
+              {{ form_widget(form.email) }}
+              <label for="username">Email</label>
+            </div>
+            <div class="input-field">
+                {{ form_widget(form.plainPassword.first) }}
+                <label for="password">Password</label>
+            </div>
+            <div class="input-field">
+                {{ form_widget(form.plainPassword.second) }}
+                <label for="password">Repeat password</label>
+            </div>
+        </div>
+        <div class="card-action center-align">
+            <input class="waves-effect waves-light btn light-blue darken-4"
+                type="submit" value="{{ 'registration.submit'|trans }}" />
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

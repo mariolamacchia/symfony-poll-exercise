@@ -14,3 +14,8 @@ services:
         arguments: [~, PollBundle\Entity\Question, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Question }
+
+    app.form.registration:
+        class: UserBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: app_user_registration }

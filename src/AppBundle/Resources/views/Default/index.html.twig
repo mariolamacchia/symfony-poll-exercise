@@ -1,18 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'centered.html.twig' %}
 
-{% block body %}
-    <div class="valign-wrapper landing-bg light-blue darken-1 white-text">
-        <div class="valign center-align container">
-            <h1>Just a poll manager</h1>
-            <h4>A simple exercise in Simfony to create and manage polls</h4>
-            <a class="waves-effect waves-light btn-large light-blue darken-4"
-                href="{{ url('fos_user_security_login') }}">
-                Login
-            </a>
-            <a class="waves-effect waves-light btn-large light-blue darken-4"
-                href="{{ url('fos_user_registration_register') }}">
-                Signup
-            </a>
-        </div>
+{% block content %}
+    <div class="center-align">
+        <h1>Just a poll manager</h1>
+        <h4>A simple exercise in Simfony to create and manage polls</h4>
+        <a class="waves-effect waves-light btn-large light-blue darken-4"
+            href="{{ url('fos_user_security_login') }}">
+            Login
+        </a>
+        <a class="waves-effect waves-light btn-large light-blue darken-4"
+            href="{{ url('fos_user_registration_register') }}">
+            Signup
+        </a>
     </div>
 {% endblock %}
