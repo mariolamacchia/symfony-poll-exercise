@@ -7,7 +7,7 @@
         <div class="card-content">
 
             <h1 class="card-title">Login</h1>
-            
+
             {% if error %}
                 <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -15,12 +15,12 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
             <div class="input-field">
-              <input id="username" type="email" class="validate">
+              <input id="username" type="email" class="validate" name="_username">
               <label for="username">Email</label>
             </div>
 
             <div class="input-field">
-              <input id="password" type="password" class="validate">
+              <input id="password" type="password" class="validate" name="_password">
               <label for="password">Password</label>
             </div>
 
