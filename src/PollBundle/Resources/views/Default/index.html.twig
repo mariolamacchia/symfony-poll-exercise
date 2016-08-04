@@ -1,1 +1,31 @@
-Hello World!
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <h1>Polls</h1>
+
+    {% if openPolls | length %}
+        <h3>Active</h3>
+        <div class="collection black-text">
+            {% for poll in openPolls %}
+                <div class="collection-item">
+                    {{ poll.name }}
+                    <div class="secondary-content">Fill in</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if closedPolls | length %}
+        <h3>Closed</h3>
+        <div class="collection black-text">
+            {% for poll in closedPolls %}
+                <div class="collection-item">
+                    {{ poll.name }}
+                    <div class="secondary-content">View results</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
