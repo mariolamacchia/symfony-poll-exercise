@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'personal.html.twig' %}
 
-{% block body %}
+{% block content %}
 <div class="container">
-    <h1>Polls</h1>
+    <h1 class="light-blue-text text-darken-1">Polls</h1>
 
     {% if openPolls | length %}
-        <h3>Active</h3>
+        <h3 class="light-blue-text text-darken-1">Active</h3>
         <div class="collection black-text">
             {% for poll in openPolls %}
                 <div class="collection-item">
@@ -17,7 +17,7 @@
     {% endif %}
 
     {% if closedPolls | length %}
-        <h3>Closed</h3>
+        <h3 class="light-blue-text text-darken-1">Closed</h3>
         <div class="collection black-text">
             {% for poll in closedPolls %}
                 <div class="collection-item">
