@@ -36,4 +36,57 @@ class DefaultController extends Controller
             "closedPolls" => $closedPolls
         ));
     }
+
+    /**
+     * @Route("/polls/{pollId}")
+     */
+    public function singlePollAction($pollId)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('PollBundle:Poll');
+
+        $poll = $repository->findOneById($pollId);
+
+        if ($poll->isEnded()) {
+            return $this->seePollResultAction();
+        }
+
+        if ($this->isPollSubmitted($pollId)) {
+            return $this->seePollAction();
+        }
+
+        return $this->writePollAction();
+    }
+
+    private function isPollSubmitted($pollId)
+    {
+        $user = $this->getUser();
+        $result = $this->getDoctrine()
+            ->getEntityManager()
+            ->createQuery(
+                'SELECT q, s FROM PollBundle:Submitting s
+                JOIN s.question q
+                WHERE q.poll = :pollid
+                AND s.user = :userid'
+            )->setParameter('pollid', $pollId)
+            ->setParameter('userid', $user->getId())
+            ->getResult();
+
+        return (count($result) > 0);
+    }
+
+    private function writePollAction()
+    {
+        die(dump('fill in'));
+    }
+
+    private function seePollAction()
+    {
+        die(dump('see your poll'));
+    }
+
+    private function seePollResultAction()
+    {
+        die(dump('see results'));
+    }
 }

@@ -10,7 +10,10 @@
             {% for poll in openPolls %}
                 <div class="collection-item">
                     {{ poll.name }}
-                    <div class="secondary-content">Fill in</div>
+                    <a href="{{ url('poll_default_singlepoll', {pollId: poll.id}) }}"
+                        class="secondary-content">
+                        Fill in
+                    </a>
                 </div>
             {% endfor %}
         </div>
@@ -22,7 +25,10 @@
             {% for poll in closedPolls %}
                 <div class="collection-item">
                     {{ poll.name }}
-                    <div class="secondary-content">View results</div>
+                    <a href="{{ url('poll_default_singlepoll', {pollId: poll.id}) }}"
+                        class="secondary-content">
+                        View results
+                    </a>
                 </div>
             {% endfor %}
         </div>

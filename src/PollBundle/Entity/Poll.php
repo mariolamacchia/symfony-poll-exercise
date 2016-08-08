@@ -124,4 +124,26 @@ class Poll
     {
         return $this->endDate;
     }
+
+    /**
+     * Get if it is submitted
+     *
+     * @return \Boolean
+     */
+    public function isSubmittedBy($user)
+    {
+
+        $result = $query->getResult();
+        return $result;
+    }
+
+    /**
+     * Get if it is ended
+     *
+     * @return \Boolean
+     */
+    public function isEnded()
+    {
+        return $this->endDate->format('U') > time();
+    }
 }
