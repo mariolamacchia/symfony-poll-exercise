@@ -41,31 +41,9 @@ class Submitting
     /**
      * @var string
      *
-     * @ORM\Column(name="value_string", type="string", length=255, nullable=true)
+     * @ORM\Column(name="value", type="string", length=255, nullable=true)
      */
-    private $valueString;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="value_bool", type="boolean", nullable=true)
-     */
-    private $valueBool;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="value_text", type="text", nullable=true)
-     */
-    private $valueText;
-
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="value_array", type="array", nullable=true)
-     */
-    private $valueArray;
-
+    private $value;
 
     /**
      * Get id
@@ -147,101 +125,5 @@ class Submitting
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * Set valueString
-     *
-     * @param string $valueString
-     *
-     * @return Submitting
-     */
-    public function setValueString($valueString)
-    {
-        $this->valueString = $valueString;
-
-        return $this;
-    }
-
-    /**
-     * Get valueString
-     *
-     * @return string
-     */
-    public function getValueString()
-    {
-        return $this->valueString;
-    }
-
-    /**
-     * Set valueBool
-     *
-     * @param boolean $valueBool
-     *
-     * @return Submitting
-     */
-    public function setValueBool($valueBool)
-    {
-        $this->valueBool = $valueBool;
-
-        return $this;
-    }
-
-    /**
-     * Get valueBool
-     *
-     * @return bool
-     */
-    public function getValueBool()
-    {
-        return $this->valueBool;
-    }
-
-    /**
-     * Set valueText
-     *
-     * @param string $valueText
-     *
-     * @return Submitting
-     */
-    public function setValueText($valueText)
-    {
-        $this->valueText = $valueText;
-
-        return $this;
-    }
-
-    /**
-     * Get valueText
-     *
-     * @return string
-     */
-    public function getValueText()
-    {
-        return $this->valueText;
-    }
-
-    /**
-     * Set valueArray
-     *
-     * @param array $valueArray
-     *
-     * @return Submitting
-     */
-    public function setValueArray($valueArray)
-    {
-        $this->valueArray = $valueArray;
-
-        return $this;
-    }
-
-    /**
-     * Get valueArray
-     *
-     * @return array
-     */
-    public function getValueArray()
-    {
-        return $this->valueArray;
     }
 }
