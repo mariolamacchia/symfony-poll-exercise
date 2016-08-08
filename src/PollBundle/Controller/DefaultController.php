@@ -55,13 +55,53 @@ class DefaultController extends Controller
             return $this->seePollAction();
         }
 
-        return $this->writePollAction();
+        return $this->writePollAction($pollId);
     }
 
     private function isPollSubmitted($pollId)
     {
+        $result = $this->getPollsUserSumbissions($pollId);
+        return (count($result) > 0);
+    }
+
+    private function writePollAction($pollId)
+    {
+        die(dump($this->getPollsQuestions($pollId)));
+    }
+
+    private function seePollAction()
+    {
+        die(dump($this->getPollsUserSubmissions($pollId)));
+    }
+
+    private function seePollResultAction()
+    {
+        die(dump($this->getPollsSubmissions($pollId)));
+    }
+
+    private function getPollsQuestions($pollId)
+    {
+        return $this->getDoctrine()
+            ->getRepository('PollBundle:Question')
+            ->findByPoll($pollId);
+    }
+
+    private function getPollsSumbissions($pollId)
+    {
+        return $this->getDoctrine()
+            ->getEntityManager()
+            ->createQuery(
+                'SELECT q, s FROM PollBundle:Submitting s
+                JOIN s.question q
+                WHERE q.poll = :pollid'
+            )->setParameter('pollid', $pollId)
+            ->getResult();
+    }
+
+    private function getPollsUserSumbissions($pollId)
+    {
         $user = $this->getUser();
-        $result = $this->getDoctrine()
+        return $this->getDoctrine()
             ->getEntityManager()
             ->createQuery(
                 'SELECT q, s FROM PollBundle:Submitting s
@@ -71,22 +111,5 @@ class DefaultController extends Controller
             )->setParameter('pollid', $pollId)
             ->setParameter('userid', $user->getId())
             ->getResult();
-
-        return (count($result) > 0);
-    }
-
-    private function writePollAction()
-    {
-        die(dump('fill in'));
-    }
-
-    private function seePollAction()
-    {
-        die(dump('see your poll'));
-    }
-
-    private function seePollResultAction()
-    {
-        die(dump('see results'));
     }
 }
