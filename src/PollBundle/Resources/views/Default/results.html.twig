@@ -1,0 +1,69 @@
+{% extends 'personal.html.twig' %}
+
+{% block content %}
+    <form method="POST" class="container">
+        <h1 class="light-blue-text text-darken-1">Results - {{ poll.name }}</h1>
+        <div class="row">
+            {% for question in questions %}
+                <div class="col s12 m6">
+                    <div class="card white black-text">
+                        <div class="card-content">
+                            <span class="card-title">Question {{ loop.index }} - {{ question.description }}</span>
+                            {% if question.type in ['check', 'radio'] %}
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Option</th>
+                                            <th>N. Choices</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for option in question.options %}
+                                            <tr>
+                                                <td>{{ option }}</td>
+                                                {% set value = 0 %}
+                                                {% for submitting in submittings %}
+                                                    {% if submitting.question.id == question.id %}
+                                                        {% if option in (submitting.value|split('')) %}
+                                                            {% set value = value + 1 %}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <td>{{ value }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+
+                            {% if question.type in ['string', 'text'] %}
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Responses</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for submitting in submittings %}
+                                            {% if submitting.question.id == question.id %}
+                                                <tr>
+                                                    <td class="collection-item">{{ submitting.value }}</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="center-align">
+            <a href="{{ url('poll_default_index') }}" class="waves-effect waves-light btn deep-orange darken-4 valign">Back to list</a>
+            {% if not submittings | length %}
+                <button class="waves-effect waves-light btn light-blue darken-4 valign">Submit</button>
+            {% endif %}
+        </div>
+    </form>
+{% endblock %}

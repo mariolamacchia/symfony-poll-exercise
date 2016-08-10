@@ -57,7 +57,7 @@ class DefaultController extends Controller
         }
 
         if ($poll->isEnded()) {
-            return $this->seePollResultAction();
+            return $this->seePollResultAction($poll);
         }
 
         return $this->viewPoll($poll);
@@ -119,7 +119,19 @@ class DefaultController extends Controller
 
         return $this->render('PollBundle:Default:submit.html.twig', array (
             "questions"   => $questions,
-            "poll"   => $poll,
+            "poll"        => $poll,
+            "submittings" => $submittings
+        ));
+    }
+
+    private function seePollResultAction($poll)
+    {
+        $questions = $this->getPollsQuestions($poll->getId());
+        $submittings = $this->getPollsSumbissions($poll->getId());
+
+        return $this->render('PollBundle:Default:results.html.twig', array (
+            "questions"   => $questions,
+            "poll"        => $poll,
             "submittings" => $submittings
         ));
     }
@@ -128,11 +140,6 @@ class DefaultController extends Controller
     {
         $result = $this->getPollsUserSumbissions($pollId);
         return (count($result) > 0);
-    }
-
-    private function seePollResultAction()
-    {
-        die(dump($this->getPollsSubmissions($pollId)));
     }
 
     private function getPollsQuestions($pollId)
