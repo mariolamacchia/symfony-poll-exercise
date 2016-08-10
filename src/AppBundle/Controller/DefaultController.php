@@ -13,6 +13,9 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('poll_default_index');
+        }
         // replace this example code with whatever you need
         return $this->render('AppBundle:Default:index.html.twig');
     }
