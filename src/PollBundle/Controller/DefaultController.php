@@ -4,6 +4,7 @@ namespace PollBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use PollBundle\Entity\Poll;
@@ -59,12 +60,7 @@ class DefaultController extends Controller
             return $this->seePollResultAction();
         }
 
-        $submitted = false;
-        if ($this->isPollSubmitted($pollId)) {
-            $submitted = true;
-        }
-
-        return $this->viewPoll($poll, $submitted);
+        return $this->viewPoll($poll);
     }
 
     /**
@@ -83,7 +79,7 @@ class DefaultController extends Controller
         }
 
         if ($poll->isEnded() || $this->isPollSubmitted($poll)) {
-            throw Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+            throw new AccessDeniedHttpException();
         }
 
         $repository = $this->getDoctrine()
@@ -100,6 +96,10 @@ class DefaultController extends Controller
                 throw $this->createNotFoundException();
             }
 
+            if (gettype($value) === 'array') {
+                $value = join(',', $value);
+            }
+
             $s = new Submitting();
             $s->setUser($user);
             $s->setQuestion($question);
@@ -112,14 +112,15 @@ class DefaultController extends Controller
         return $this->singlePollAction($pollId);
     }
 
-    private function viewPoll($poll, $submitted)
+    private function viewPoll($poll)
     {
         $questions = $this->getPollsQuestions($poll->getId());
+        $submittings = $this->getPollsUserSumbissions($poll->getId());
 
         return $this->render('PollBundle:Default:submit.html.twig', array (
             "questions"   => $questions,
             "poll"   => $poll,
-            "submitted" => $submitted
+            "submittings" => $submittings
         ));
     }
 

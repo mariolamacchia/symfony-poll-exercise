@@ -14,8 +14,17 @@
                                 {% for option in question.options %}
                                     <p>
                                         <input type="checkbox"
-                                            {% if submitted %}disabled="true"{% endif %}
-                                            name="{{ question.id }}"
+                                            {% if submittings | length %}
+                                                disabled="true"
+                                                {% for submitting in submittings %}
+                                                    {% if submitting.question.id == question.id %}
+                                                        {% if option in (submitting.value|split('')|keys) %}
+                                                            checked="checked"
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                            name="{{ question.id }}[]"
                                             id="option-{{ question.id }}-{{ loop.index0 }}"
                                             value="{{ option }}"/>
                                         <label for="option-{{ question.id }}-{{ loop.index0 }}">{{ option }}</label>
@@ -28,7 +37,17 @@
                                 {% for option in question.options %}
                                     <p>
                                         <input type="radio"
-                                            {% if submitted %}disabled="true"{% endif %}
+                                            {% if submittings | length %}
+                                                disabled="true"
+                                                {% for submitting in submittings %}
+                                                    {% if submitting.question.id == question.id %}
+                                                        {% if option == submitting.value %}
+                                                            checked="checked"
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% if submittings | length %}disabled="true"{% endif %}
                                             name="{{ question.id }}"
                                             id="option-{{ question.id }}-{{ loop.index0 }}"
                                             value="{{ option }}"/>
@@ -40,7 +59,14 @@
                             {% if question.type == 'string' %}
                                 <div class="input-field">
                                     <input name="{{ question.id }}" type="text" id="{{ question.id }}"
-                                        {% if submitted %}disabled="true"{% endif %}>
+                                        {% if submittings | length %}
+                                            disabled="true"
+                                            {% for submitting in submittings %}
+                                                {% if submitting.question.id == question.id %}
+                                                    value="{{ submitting.value }}"
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}>
                                     <label for="{{ question.id }}">{{ question.description }}</label>
                                 </div>
                             {% endif %}
@@ -48,8 +74,16 @@
                             {% if question.type == 'text' %}
                                 <div class="input-field">
                                     <textarea name="{{ question.id }}" type="text"
-                                        {% if submitted %}disabled="true"{% endif %}
-                                        id="{{ question.id }}" class="materialize-textarea"></textarea>
+                                        class="materialize-textarea"
+                                        {% set value = '' %}
+                                        {% if submittings | length %}
+                                            disabled="true"
+                                            {% for submitting in submittings %}
+                                                {% if submitting.question.id == question.id %}
+                                                    {% set value = submitting.value %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}>{{ value }}</textarea>
                                     <label for="{{ question.id }}">{{ question.description }}</label>
                                 </div>
                             {% endif %}
@@ -58,7 +92,7 @@
                 </div>
             {% endfor %}
         </div>
-        {% if not submitted %}
+        {% if not submittings | length %}
             <div class="center-align">
                 <button class="waves-effect waves-light btn light-blue darken-4 valign">Submit</button>
             </div>
