@@ -22,15 +22,15 @@ class DefaultController extends Controller
 
         $openPolls = $repository
             ->createQueryBuilder('p')
-            ->where('p.startDate >= :date')
-            ->where('p.endDate < :date')
+            ->where('p.startDate < :date')
+            ->where('p.endDate >= :date')
             ->setParameter(':date', date('Y-m-d'))
             ->getQuery()
             ->getResult();
 
         $closedPolls = $repository
             ->createQueryBuilder('p')
-            ->where('p.endDate >= :date')
+            ->where('p.endDate < :date')
             ->setParameter(':date', date('Y-m-d'))
             ->getQuery()
             ->getResult();
