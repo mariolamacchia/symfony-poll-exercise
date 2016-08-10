@@ -92,10 +92,11 @@
                 </div>
             {% endfor %}
         </div>
-        {% if not submittings | length %}
-            <div class="center-align">
+        <div class="center-align">
+            <a href="{{ url('poll_default_index') }}" class="waves-effect waves-light btn deep-orange darken-4 valign">Back to list</a>
+            {% if not submittings | length %}
                 <button class="waves-effect waves-light btn light-blue darken-4 valign">Submit</button>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </form>
 {% endblock %}
