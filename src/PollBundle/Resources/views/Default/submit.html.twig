@@ -1,7 +1,7 @@
 {% extends 'personal.html.twig' %}
 
 {% block content %}
-    <form class="container">
+    <form method="POST" class="container">
         <h1 class="light-blue-text text-darken-1">Submit - {{ poll.name }}</h1>
         <div class="row">
             {% for question in questions %}
@@ -49,8 +49,7 @@
                                 <div class="input-field">
                                     <textarea name="{{ question.id }}" type="text"
                                         {% if submitted %}disabled="true"{% endif %}
-                                        id="{{ question.id }}" class="materialize-textarea">
-                                    </textarea>
+                                        id="{{ question.id }}" class="materialize-textarea"></textarea>
                                     <label for="{{ question.id }}">{{ question.description }}</label>
                                 </div>
                             {% endif %}

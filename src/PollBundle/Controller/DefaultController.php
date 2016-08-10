@@ -3,8 +3,11 @@
 namespace PollBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use PollBundle\Entity\Poll;
+use PollBundle\Entity\Submitting;
 
 class DefaultController extends Controller
 {
@@ -39,6 +42,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/polls/{pollId}")
+     * @Method({"GET"})
      */
     public function singlePollAction($pollId)
     {
@@ -60,10 +64,55 @@ class DefaultController extends Controller
             $submitted = true;
         }
 
-        return $this->submitPollAction($poll, $submitted);
+        return $this->viewPoll($poll, $submitted);
     }
 
-    private function submitPollAction($poll, $submitted)
+    /**
+     * @Route("/polls/{pollId}")
+     * @Method({"POST"})
+     */
+    public function submitPollAction($pollId)
+    {
+        $repository = $this->getDoctrine()
+            ->getRepository('PollBundle:Poll');
+
+        $poll = $repository->findOneById($pollId);
+
+        if (!$poll) {
+            throw $this->createNotFoundException();
+        }
+
+        if ($poll->isEnded() || $this->isPollSubmitted($poll)) {
+            throw Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+        }
+
+        $repository = $this->getDoctrine()
+            ->getRepository('PollBundle:Question');
+        $request = Request::createFromGlobals();
+        $data = $request->request->all();
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        foreach ($data as $key => $value) {
+            $question = $repository->findOneById($key);
+            if (!$question) {
+                throw $this->createNotFoundException();
+            }
+
+            $s = new Submitting();
+            $s->setUser($user);
+            $s->setQuestion($question);
+            $s->setValue($value);
+            $em->persist($s);
+        }
+
+        $em->flush();
+
+        return $this->singlePollAction($pollId);
+    }
+
+    private function viewPoll($poll, $submitted)
     {
         $questions = $this->getPollsQuestions($poll->getId());
 
