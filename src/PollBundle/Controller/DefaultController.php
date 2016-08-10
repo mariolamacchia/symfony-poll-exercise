@@ -47,31 +47,37 @@ class DefaultController extends Controller
 
         $poll = $repository->findOneById($pollId);
 
+        if (!$poll) {
+            throw $this->createNotFoundException();
+        }
+
         if ($poll->isEnded()) {
             return $this->seePollResultAction();
         }
 
+        $submitted = false;
         if ($this->isPollSubmitted($pollId)) {
-            return $this->seePollAction();
+            $submitted = true;
         }
 
-        return $this->writePollAction($pollId);
+        return $this->submitPollAction($poll, $submitted);
+    }
+
+    private function submitPollAction($poll, $submitted)
+    {
+        $questions = $this->getPollsQuestions($poll->getId());
+
+        return $this->render('PollBundle:Default:submit.html.twig', array (
+            "questions"   => $questions,
+            "poll"   => $poll,
+            "submitted" => $submitted
+        ));
     }
 
     private function isPollSubmitted($pollId)
     {
         $result = $this->getPollsUserSumbissions($pollId);
         return (count($result) > 0);
-    }
-
-    private function writePollAction($pollId)
-    {
-        die(dump($this->getPollsQuestions($pollId)));
-    }
-
-    private function seePollAction()
-    {
-        die(dump($this->getPollsUserSubmissions($pollId)));
     }
 
     private function seePollResultAction()

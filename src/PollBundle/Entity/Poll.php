@@ -144,6 +144,6 @@ class Poll
      */
     public function isEnded()
     {
-        return $this->endDate->format('U') > time();
+        return $this->endDate->format('U') < time();
     }
 }

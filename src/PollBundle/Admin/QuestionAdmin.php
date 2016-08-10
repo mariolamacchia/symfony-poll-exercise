@@ -6,6 +6,8 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class QuestionAdmin extends AbstractAdmin
 {
@@ -16,7 +18,19 @@ class QuestionAdmin extends AbstractAdmin
             'choice_label' => 'name'
         ));
         $formMapper->add('description', 'text');
-        $formMapper->add('type', 'text');
+        $formMapper->add('type', ChoiceType::class, array(
+            'choices' => array(
+                'Short string'      => 'string',
+                'Long text'         => 'text',
+                'Multiple choice'   => 'check',
+                'Single choice'     => 'radio',
+            )
+        ));
+        $formMapper->add('options', CollectionType::class, array(
+            'allow_add' => true,
+            'allow_delete' => true,
+            'delete_empty' => true
+        ));
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
