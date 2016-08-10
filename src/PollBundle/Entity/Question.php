@@ -132,4 +132,27 @@ class Question
     {
         return $this->description;
     }
+
+    /**
+     * Get options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    /**
+     * Set options
+     *
+     * @param array $options
+     *
+     * @return Question
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
 }
