@@ -37,6 +37,13 @@ class Question
     private $type;
 
     /**
+     * @var array
+     *
+     * @ORM\Column(name="options", type="array", nullable=true)
+     */
+    private $options;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255)
