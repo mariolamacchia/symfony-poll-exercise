@@ -25,7 +25,7 @@
                                                 {% set value = 0 %}
                                                 {% for submitting in submittings %}
                                                     {% if submitting.question.id == question.id %}
-                                                        {% if option in (submitting.value|split('')) %}
+                                                        {% if option in (submitting.value|split(',')) %}
                                                             {% set value = value + 1 %}
                                                         {% endif %}
                                                     {% endif %}
